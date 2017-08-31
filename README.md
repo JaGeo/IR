@@ -4,7 +4,7 @@ This python package can calculate infrared intensities from the dipole approxima
 <hr></hr>
 It is based on the following two publications: 
 
-P. Giannozzi and S. Baroni, J. Chem. Phys. 100, 8537 (1994). 
+P. Giannozzi and S. Baroni, __J. Chem. Phys.__, **1994**, __100__, 8537. 
 
 and 
 
