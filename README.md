@@ -10,7 +10,7 @@ and
 
 D. Karhánek, T. Bučko, J. Hafner, J. Phys.: Condens. Matter 22 265006 (2010).
 
-They should be cited if you use the program. Of course, also VASP and Phonopy.
+They should be cited if you use the program. Of course, also ```VASP``` and ```Phonopy```.
 
 Intallation
 -----------
