@@ -15,13 +15,11 @@ class IR:
 		"""
 		Class for calculating the IR spectra in the dipole approximation according to:
 		P. Giannozzi and S. Baroni, J. Chem. Phys. 100, 8537 (1994). 
-		
 		and
-	
-		D. Karhánek, T. Bučko, J. Hafner, J. Phys.: Condens. Matter 22 265006 (2010).  
+		D. Karhanek, T. Bucko, J. Hafner, J. Phys.: Condens. Matter 22 265006 (2010).  
 		(http://homepage.univie.ac.at/david.karhanek/downloads.html )
 
-		This class was also carefully tested against the script by D. Karhánek. 
+		This class was also carefully compared to the results of the script by D. Karhanek. 
 	
 		Args:
 			PoscarNamse (str): name of the POSCAR that was used for the phonon calculation
@@ -64,8 +62,10 @@ class IR:
 
 
 		self.__NumberOfBands=len(self.__frequencies)
+
 		#Nicer format of the eigenvector file
 		self.__FormatEigenvectors()
+
 		#Get dipole approximation of the intensitiess
 		self.__set_intensities()
 		
@@ -89,7 +89,10 @@ class IR:
 		"""
 		Gives a certain eigenvector corresponding to one specific atom, band and Cartesian coordinate
 
-		args:
+		args: 
+			atom (int) : number of the atoms (same order as in POSCAR)
+			band (int) : number of the frequency (ordered by energy)
+			xoryorz (int): Cartesian coordinate of the eigenvector			
 			
 			
 		"""
@@ -98,8 +101,12 @@ class IR:
 
 	def __massEig(self,atom,band,xoryorz):
 		"""
-		Gives a certain eigenvector corresponding to one specific atom, band and Cartesian coordinate
+		Gives a certain eigenvector divided by sqrt(mass of the atom) corresponding to one specific atom, band and Cartesian coordinate
 
+		args: 
+			atom (int) : number of the atoms (same order as in POSCAR)
+			band (int) : number of the frequency (ordered by energy)
+			xoryorz (int): Cartesian coordinate of the eigenvector	
 			
 
 		"""
@@ -107,6 +114,10 @@ class IR:
 		return self.__Eigenvector(atom,band,xoryorz)/np.sqrt(self.__masses[atom])
 
 	def __set_intensities(self):
+		"""
+		Calculates the oscillator strenghts according to "P. Giannozzi and S. Baroni, J. Chem. Phys. 100, 8537 (1994)."
+		"""
+
 		Intensity={}
 		for freq in range(len(self.__frequencies)):
 			Intensity[freq]=0
@@ -123,46 +134,101 @@ class IR:
 			
 		self.__Intensity=np.array(ReformatIntensity)
 	
-	#moeglicherweise 3 Translationen und Imaginaermoden auslassen!	
+		
 	def get_intensities(self):
+		""" 
+		returns calculated oscillator strengths as a numpy array
+		"""
+
 		return self.__Intensity
-	#moeglicherweise 3 Translationen und Imaginaermoden auslassen!	
+	
 	def get_frequencies(self):
+		""" 
+		returns frequencies as a numpy array
+		"""
+
 		return self.__frequencies
 
-	#hier wird bisher keine Entartung beachtet
+	#no degeneracy yet
 	def get_spectrum(self):
+		"""
+		returns spectrum as a dict of numpy arrays
+		"""
+		
 		spectrum = {'Frequencies': self.__frequencies, 'Intensities': self.__Intensity }
 		return spectrum
 
 	def get_gaussiansmearedspectrum(self,sigma):
+		""" 
+		returns a spectrum with gaussian-smeared intensities
+
+		args:
+			sigma (float): smearing
+		"""
+
 		unsmearedspectrum=self.get_spectrum()
 		frequencies=self.get_frequencies()
 		Intensity=self.get_intensities()
 		rangex=np.linspace(0,np.nanmax(frequencies),num=int(np.nanmax(frequencies))*100)
 		y=np.zeros(int(np.nanmax(frequencies))*100)
 		for i in range(len(frequencies)):
-			y=y+self.__gaussiansmearing(rangex,frequencies[i],Intensity[i],sigma,np.nanmax(frequencies))
+			y=y+self.__gaussiansmearing(rangex,frequencies[i],Intensity[i],sigma)
 		smearedspectrum={'Frequencies': rangex, 'Intensities': y}
 		return smearedspectrum
 
 
+		
+	def __gaussiansmearing(self,rangex,frequency,Intensity,sigma):
+		"""
+		applies gaussian smearing to a range of x values, a certain frequency, a given intensity
 
-	def __gaussiansmearing(self,rangex,frequency,Intensity,sigma,numberofFrequencies):
-		y=np.zeros(int(numberofFrequencies)*100)		
+		args:
+			rangex (ndarray): Which values are in your spectrum
+			frequency (float): frequency corresponding to the intensity that will be smeared
+			Intensity (float): Intensity that will be smeared
+			sigma (float): value for the smearing
+
+		"""
+		
+		y=np.zeros(rangex.size)		
 		y=Intensity*np.exp(-np.power((rangex-frequency),2)/(2*np.power(sigma,2)))*np.power(np.sqrt(2*np.pi)*sigma,-1)
 		return y
 	
 
 	def write_spectrum(self,filename):
+		"""
+		writes oscillator strenghts to file
+
+		args: 	
+			filename(str): Filename
+		"""
+
 		spectrum=self.get_spectrum()
 		self.__write_file(filename,spectrum)	
 
 	def write_gaussiansmearedspectrum(self,filename,sigma):
+		"""
+		writes smeared oscillator strenghts to file
+
+		args: 	
+			filename(str): Filename
+			sigma(float): smearing of the spectrum
+		"""
+
 		spectrum=self.get_gaussiansmearedspectrum(sigma)
 		self.__write_file(filename,spectrum)
 
 	def __write_file(self,filename,spectrum):
+		"""
+		writes dict for any spectrum into file
+
+		args: 	
+			filename(str): Filename
+			spectrum (dict): Includes nparray for 'Frequencies'
+ 			and 'Intensities'			
+
+		"""
+
 		Freq=np.array(spectrum['Frequencies'].tolist())  
 		Intens=np.array(spectrum['Intensities'].tolist())
 		file  = open(filename, 'w')
