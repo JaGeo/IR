@@ -17,9 +17,9 @@ class IR:
 		P. Giannozzi and S. Baroni, J. Chem. Phys. 100, 8537 (1994). 
 		and
 		D. Karhanek, T. Bucko, J. Hafner, J. Phys.: Condens. Matter 22 265006 (2010).  
-		(http://homepage.univie.ac.at/david.karhanek/downloads.html )
+		
 
-		This class was also carefully compared to the results of the script by D. Karhanek. 
+		This class was also carefully compared to the results of the script by D. Karhanek available at http://homepage.univie.ac.at/david.karhanek/downloads.html 
 	
 		Args:
 			PoscarNamse (str): name of the POSCAR that was used for the phonon calculation
@@ -169,8 +169,8 @@ class IR:
 		unsmearedspectrum=self.get_spectrum()
 		frequencies=self.get_frequencies()
 		Intensity=self.get_intensities()
-		rangex=np.linspace(0,np.nanmax(frequencies),num=int(np.nanmax(frequencies))*100)
-		y=np.zeros(int(np.nanmax(frequencies))*100)
+		rangex=np.linspace(0,np.nanmax(frequencies)+50,num=int(np.nanmax(frequencies)+50)*100)
+		y=np.zeros(int(np.nanmax(frequencies)+50)*100)
 		for i in range(len(frequencies)):
 			y=y+self.__gaussiansmearing(rangex,frequencies[i],Intensity[i],sigma)
 		smearedspectrum={'Frequencies': rangex, 'Intensities': y}
@@ -234,5 +234,16 @@ class IR:
 		file  = open(filename, 'w')
 		for i in range(len(Freq)):
 			file.write('%s %s \n' % (Freq[i], Intens[i]))
-		file.close()				
+		file.close()
+
+	#Todo: make a plotting option availabe
+	#def plot_spectrum(self,filename):
+	#	spectrum=self.get_spectrum()
+	#	plot_xy()
+	
+	#def plot__gaussiansmearedspectrum(self,filename):
+	
+	#def __plot_xydata(self,filename,spectrum):
+	#	spectrum=spectrum		
+					
 
