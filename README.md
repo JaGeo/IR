@@ -4,11 +4,11 @@ This python package can calculate infrared intensities from the dipole approxima
 <hr></hr>
 It is based on the following two publications: 
 
-P. Giannozzi and S. Baroni, __J. Chem. Phys.__, **1994**, __100__, 8537. 
+P. Giannozzi, S. Baroni, *J. Chem. Phys.*, **1994**, *100*, 8537. 
 
 and 
 
-D. Karhánek, T. Bučko, J. Hafner, J. Phys.: Condens. Matter 22 265006 (2010).
+D. Karhánek, T. Bučko, J. Hafner, *J. Phys.: Condens. Matter.*, **2010**, *22*, 265006.
 
 They should be cited if you use the program. Of course, also ```VASP``` and ```Phonopy```.
 
