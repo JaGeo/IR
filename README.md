@@ -12,7 +12,7 @@ They should be cited if you use the program. Of course, also ```VASP``` and ```P
 
 Intallation
 -----------
-To use this package you need to install Phonopy correctly. Furthermore, numpy is required.
+To use this package you need to install ```Phonopy``` correctly. Furthermore, ```numpy``` is required. Also, the python path should be exported correctly.
 
 
 
