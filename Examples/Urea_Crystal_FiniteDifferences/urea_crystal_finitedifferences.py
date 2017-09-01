@@ -13,5 +13,6 @@ myIR=IR(PoscarName='POSCAR',BornFileName='BORN',ForceConstants=False,ForceFileNa
 
 
 myIR.write_spectrum('OscillatorStrengths.txt')
-myIR.write_gaussiansmearedspectrum('SmearedOscillatorStrengths.txt',2)
-
+myIR.write_gaussiansmearedspectrum('SmearedOscillatorStrengths.txt',4)
+myIR.plot_spectrum('OscillatorStrengths.eps')
+myIR.plot_gaussiansmearedspectrum('SmearedOscillatorStrengths.eps',4)

@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 from phonopy import Phonopy
 from phonopy.interface.vasp import read_vasp
 from phonopy.file_IO import parse_FORCE_SETS, parse_BORN, write_FORCE_CONSTANTS, parse_FORCE_CONSTANTS
@@ -237,12 +238,22 @@ class IR:
 		file.close()
 
 	#Todo: make a plotting option availabe
-	#def plot_spectrum(self,filename):
-	#	spectrum=self.get_spectrum()
-	#	plot_xy()
-	
-	#def plot__gaussiansmearedspectrum(self,filename):
-	
+	def plot_spectrum(self,filename):
+		spectrum=self.get_spectrum()
+                plt.stem(spectrum['Frequencies'].tolist(),spectrum['Intensities'].tolist(), markerfmt=' ')		
+       		plt.xlabel('Wave number (cm$^{-1}$)')
+		plt.ylabel('Oscillator Strengths')
+		plt.savefig(filename)
+		plt.show()	
+
+	def plot_gaussiansmearedspectrum(self,filename,sigma):
+		spectrum=self.get_gaussiansmearedspectrum(sigma)
+                plt.plot(spectrum['Frequencies'].tolist(),spectrum['Intensities'].tolist())
+                plt.xlabel('Wave number (cm$^{-1}$)')
+                plt.ylabel('Oscillator Strengths')
+                plt.savefig(filename)
+                plt.show()	
+
 	#def __plot_xydata(self,filename,spectrum):
 	#	spectrum=spectrum		
 					
