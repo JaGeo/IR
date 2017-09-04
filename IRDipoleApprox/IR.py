@@ -12,7 +12,7 @@ import os
 class IR:
 	
 	def __init__(self,PoscarName='POSCAR',BornFileName='BORN',ForceConstants=False,ForceFileName='FORCE_SETS',supercell=[[1, 0, 0],[0, 1, 0], [0, 0, 1]]
-,nac=False,masses=[],primitive=[[1, 0, 0],[0, 1, 0], [0, 0, 1]]):
+,nac=False,symprec=1e-5,masses=[],primitive=[[1, 0, 0],[0, 1, 0], [0, 0, 1]]):
 		"""
 		Class for calculating the IR spectra in the dipole approximation according to:
 		P. Giannozzi and S. Baroni, J. Chem. Phys. 100, 8537 (1994). 
@@ -29,13 +29,16 @@ class IR:
 			ForceFileName (str): name of the file including force constants or forces
 			supercell (list of lists): reads in supercell
 			nac (boolean): If true, NAC is applied.
+			symprec (float): contains symprec tag as used in Phonopy
 			masses (list): Masses in this list are used instead of the ones prepared in Phonopy. Useful for isotopes.
+			primitive (list of lists): contains rotational matrix to arrive at primitive cell
+			
 		"""
 
 		
 		self.__unitcell =read_vasp(PoscarName)
 		self.__supercell=supercell
-		self.__phonon= Phonopy(self.__unitcell,supercell_matrix=self.__supercell,primitive_matrix=primitive,factor=VaspToCm,symprec=1e-4)
+		self.__phonon= Phonopy(self.__unitcell,supercell_matrix=self.__supercell,primitive_matrix=primitive,factor=VaspToCm,symprec=symprec)
 	        self.__natoms=self.__phonon.get_primitive().get_number_of_atoms()	
 
 		#If different masses are supplied
