@@ -12,7 +12,7 @@ import os
 class IR:
 	
 	def __init__(self,PoscarName='POSCAR',BornFileName='BORN',ForceConstants=False,ForceFileName='FORCE_SETS',supercell=[[1, 0, 0],[0, 1, 0], [0, 0, 1]]
-,nac=False,masses=[]):
+,nac=False,masses=[],primitive=[[1, 0, 0],[0, 1, 0], [0, 0, 1]]):
 		"""
 		Class for calculating the IR spectra in the dipole approximation according to:
 		P. Giannozzi and S. Baroni, J. Chem. Phys. 100, 8537 (1994). 
@@ -35,7 +35,7 @@ class IR:
 		
 		self.__unitcell =read_vasp(PoscarName)
 		self.__supercell=supercell
-		self.__phonon= Phonopy(self.__unitcell,supercell_matrix=self.__supercell,factor=VaspToCm,symprec=1e-4)
+		self.__phonon= Phonopy(self.__unitcell,supercell_matrix=self.__supercell,primitive_matrix=primitive,factor=VaspToCm,symprec=1e-4)
 	        self.__natoms=self.__phonon.get_primitive().get_number_of_atoms()	
 
 		#If different masses are supplied
@@ -58,7 +58,8 @@ class IR:
 
 		#Apply NAC Correction
                 if nac:
-                        self.__phonon.set_nac_params(BORN_file)
+                   
+			self.__phonon.set_nac_params(BORN_file)
 		self.__frequencies,self.__eigvecs=self.__phonon.get_frequencies_with_eigenvectors([0, 0, 0])
 
 
