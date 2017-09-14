@@ -3,7 +3,7 @@ from IR import IR
 
 supercell=[[1, 0, 0],[0, 1, 0], [0, 0, 1]]
 
-#IF you would like to reproduce the frequencies calculated by DFTP in VASP and relied on the masses given in the POSCAR files:
+#IF you would like to reproduce the frequencies calculated by DFPT in VASP and relied on the masses given in the POTCAR files:
 masses=[12.011, 1.000, 1.000, 1.000, 1.000,  16.000]
 
 
