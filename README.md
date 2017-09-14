@@ -3,6 +3,7 @@
 # IR
 This python package can calculate infrared intensities based on the dipole approximation. To do so, you need [```VASP```](https://www.vasp.at/) and [```Phonopy```](https://github.com/atztogo/phonopy). 
 <hr></hr>
+
 What to cite
 ------------
 It is based on the following two publications: 
