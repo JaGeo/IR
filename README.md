@@ -27,7 +27,9 @@ How to
 Todo
 --------
 
-1. Test NAC in more detail.
+1. Scaling of Intensities
+2. Other functionalities
+3. Include tests
 
 
 
