@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/JaGeo/IR/blob/master/LICENSE)
 
 # IR
 This python package can calculate infrared intensities based on the dipole approximation. To do so, you need [```VASP```](https://www.vasp.at/) and [```Phonopy```](https://github.com/atztogo/phonopy). 
