@@ -16,7 +16,7 @@ To use this package you need to install [```Phonopy```](https://github.com/atzto
 
 How to
 --------
-1. Perform a phonon calculation with Phonopy and VASP (finite displacements or DFTP) ([More information on this procedure](https://atztogo.github.io/phonopy/procedure.html))
+1. Perform a phonon calculation with Phonopy and VASP (finite displacements or DFPT) ([More information on this procedure](https://atztogo.github.io/phonopy/procedure.html))
 2. Generate the ```FORCE_SETS``` or ```FORCE_CONSTANTS``` file
 3. Calculate BORN charges ([More information on this procedure](https://atztogo.github.io/phonopy/procedure.html)) and the ```BORN``` file
 4. Download this repository, export the Python path correctly
