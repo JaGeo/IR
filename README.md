@@ -30,10 +30,10 @@ How to
 
 Todo
 --------
-
-1. Scaling of Intensities
-2. Other functionalities
-3. Include tests
+1. Treat Degeneracy
+2. Scaling of Intensities
+3. Other functionalities
+4. Include tests
 
 Information about the Author
 --------
