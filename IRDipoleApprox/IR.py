@@ -39,12 +39,12 @@ class IR:
 		self.__unitcell =read_vasp(PoscarName)
 		self.__supercell=supercell
 		self.__phonon= Phonopy(self.__unitcell,supercell_matrix=self.__supercell,primitive_matrix=primitive,factor=VaspToCm,symprec=symprec)
-	        self.__natoms=self.__phonon.get_primitive().get_number_of_atoms()	
+		self.__natoms=self.__phonon.get_primitive().get_number_of_atoms()	
 
 		#If different masses are supplied
 		if masses: 
 			self.__phonon.set_masses(masses)
-                self.__masses=self.__phonon.get_primitive().get_masses() 	
+			self.__masses=self.__phonon.get_primitive().get_masses() 	
 		#Forces or Force Constants
 		if not ForceConstants:
 			self.__force_sets = parse_FORCE_SETS(filename=ForceFileName)
@@ -57,11 +57,10 @@ class IR:
 	
 		#Read in BORN file
 		BORN_file = parse_BORN(self.__phonon.get_primitive(),filename=BornFileName)
-                self.__BORN_CHARGES=BORN_file['born']
+		self.__BORN_CHARGES=BORN_file['born']
 
 		#Apply NAC Correction
-                if nac:
-                   
+		if nac:
 			self.__phonon.set_nac_params(BORN_file)
 		self.__frequencies,self.__eigvecs=self.__phonon.get_frequencies_with_eigenvectors([0, 0, 0])
 
@@ -85,10 +84,10 @@ class IR:
 		self.__EigFormat = {}
 		for alpha in  range(self.__NumberOfBands):
 			laufer=0
-    	 	   	for beta in range(self.__natoms):
-        			for xyz in range(0,3):
-      	    	     	 		self.__EigFormat[beta,alpha,xyz]=self.__eigvecs[laufer][alpha]
-                       			laufer=laufer+1
+			for beta in range(self.__natoms):
+				for xyz in range(0,3):
+					self.__EigFormat[beta,alpha,xyz]=self.__eigvecs[laufer][alpha]
+					laufer=laufer+1
 
 	def __Eigenvector(self, atom, band, xoryorz ):
 		"""
@@ -129,7 +128,7 @@ class IR:
 			for alpha in range(3):
 				sum=0
 				for l in range(self.__natoms):
-                			for beta in range(3):
+					for beta in range(3):
 						sum=sum+self.__BORN_CHARGES[l,alpha,beta]*self.__massEig(l,freq,beta)
 				Intensity[freq]=Intensity[freq]+np.power(np.absolute(sum),2)
 
@@ -159,7 +158,14 @@ class IR:
 		"""
 		returns spectrum as a dict of numpy arrays
 		"""
-		
+	
+		"""
+		Falls Entartung existiert soll hier das Spektrum hier entsprechend angepasst werden
+		 
+                muss hier entsprechend eingepflegt werden
+
+		"""
+	
 		spectrum = {'Frequencies': self.__frequencies, 'Intensities': self.__Intensity }
 		return spectrum
 
@@ -244,19 +250,19 @@ class IR:
 	#Todo: make a plotting option availabe
 	def plot_spectrum(self,filename):
 		spectrum=self.get_spectrum()
-                plt.stem(spectrum['Frequencies'].tolist(),spectrum['Intensities'].tolist(), markerfmt=' ')		
-       		plt.xlabel('Wave number (cm$^{-1}$)')
+		plt.stem(spectrum['Frequencies'].tolist(),spectrum['Intensities'].tolist(), markerfmt=' ')		
+		plt.xlabel('Wave number (cm$^{-1}$)')
 		plt.ylabel('Oscillator Strengths')
 		plt.savefig(filename)
 		plt.show()	
 
 	def plot_gaussiansmearedspectrum(self,filename,sigma):
 		spectrum=self.get_gaussiansmearedspectrum(sigma)
-                plt.plot(spectrum['Frequencies'].tolist(),spectrum['Intensities'].tolist())
-                plt.xlabel('Wave number (cm$^{-1}$)')
-                plt.ylabel('Oscillator Strengths')
-                plt.savefig(filename)
-                plt.show()	
+		plt.plot(spectrum['Frequencies'].tolist(),spectrum['Intensities'].tolist())
+		plt.xlabel('Wave number (cm$^{-1}$)')
+		plt.ylabel('Oscillator Strengths')
+		plt.savefig(filename)
+		plt.show()	
 
 	#def __plot_xydata(self,filename,spectrum):
 	#	spectrum=spectrum		
