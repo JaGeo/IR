@@ -160,9 +160,7 @@ class IR:
 		"""
 	
 		"""
-		Falls Entartung existiert soll hier das Spektrum hier entsprechend angepasst werden
-		 
-                muss hier entsprechend eingepflegt werden
+		Degeneracy should be treated for the Oscillator strengths
 
 		"""
 	
