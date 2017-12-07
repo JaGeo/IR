@@ -44,7 +44,7 @@ class IR:
 		#If different masses are supplied
 		if masses: 
 			self.__phonon.set_masses(masses)
-			self.__masses=self.__phonon.get_primitive().get_masses() 	
+		self.__masses=self.__phonon.get_primitive().get_masses() 	
 		#Forces or Force Constants
 		if not ForceConstants:
 			self.__force_sets = parse_FORCE_SETS(filename=ForceFileName)
