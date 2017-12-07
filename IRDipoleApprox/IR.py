@@ -242,7 +242,7 @@ class IR:
 		Freq=np.array(spectrum['Frequencies'].tolist())  
 		Intens=np.array(spectrum['Intensities'].tolist())
 		file  = open(filename, 'w')
-		file.write('Frequency (cm$^{-1}$) Oscillator Strengths ')		
+		file.write('Frequency (cm-1$) Oscillator Strengths ')		
 		for i in range(len(Freq)):
 			file.write('%s %s \n' % (Freq[i], Intens[i]))
 		file.close()
