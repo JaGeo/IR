@@ -169,6 +169,7 @@ class IR:
 		spectrum = {'Frequencies': self.__frequencies, 'Intensities': self.__Intensity }
 		return spectrum
 
+	#only gaussian broadening so far
 	def get_gaussiansmearedspectrum(self,sigma):
 		""" 
 		returns a spectrum with gaussian-smeared intensities
@@ -243,11 +244,12 @@ class IR:
 		Freq=np.array(spectrum['Frequencies'].tolist())  
 		Intens=np.array(spectrum['Intensities'].tolist())
 		file  = open(filename, 'w')
+		file.write('Frequency (cm$^{-1}$) Oscillator Strengths ')		
 		for i in range(len(Freq)):
 			file.write('%s %s \n' % (Freq[i], Intens[i]))
 		file.close()
 
-	#Todo: make a plotting option availabe
+	
 	def plot_spectrum(self,filename):
 		spectrum=self.get_spectrum()
 		plt.stem(spectrum['Frequencies'].tolist(),spectrum['Intensities'].tolist(), markerfmt=' ')		
