@@ -23,7 +23,7 @@ class IR:
 
 		This class was also carefully compared to the results of the script by D. Karhanek available at http://homepage.univie.ac.at/david.karhanek/downloads.html 
 	
-		Args:
+		args:
 			PoscarNamse (str): name of the POSCAR that was used for the phonon calculation
 			BornFileName (str): name of the file with BORN charges (formatted with outcar-born)
 			ForceConstants (boolean): If True, ForceConstants are read in. If False, forces are read in.
@@ -314,15 +314,13 @@ class IR:
 		file.close()
 		   
 
-
-
-
-
-
-
-
 	
 	def plot_spectrum(self,filename):
+		"""
+		Plots frequencies in cm-1 and oscillator strengths
+		args:
+			filename(str): name of the file
+		"""		
 		spectrum=self.get_spectrum()
 		plt.stem(spectrum['Frequencies'].tolist(),spectrum['Intensities'].tolist(), markerfmt=' ')		
 		plt.xlabel('Wave number (cm$^{-1}$)')
@@ -331,6 +329,12 @@ class IR:
 		plt.show()	
 
 	def plot_gaussiansmearedspectrum(self,filename,sigma):
+		"""
+		Plots frequencies in cm-1 and smeared oscillator strengths
+		args:
+			filename(str): name of the file
+			sigma(float): smearing
+		"""
 		spectrum=self.get_gaussiansmearedspectrum(sigma)
 		plt.plot(spectrum['Frequencies'].tolist(),spectrum['Intensities'].tolist())
 		plt.xlabel('Wave number (cm$^{-1}$)')
