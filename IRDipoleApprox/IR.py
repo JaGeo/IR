@@ -7,8 +7,8 @@ from phonopy.structure.atoms import PhonopyAtoms
 from phonopy.units import VaspToCm, VaspToTHz
 import os
 from phonopy.phonon.degeneracy import degenerate_sets as get_degenerate_sets
-import ruamel.yaml
-import sys
+
+
 
 
 class IR:	
@@ -242,7 +242,7 @@ class IR:
 		return y
 	
 
-	def write_spectrum(self,filename,type='txt'):
+	def write_spectrum(self,filename,type='yaml'):
 		"""
 		writes oscillator strenghts to file
 
@@ -257,7 +257,7 @@ class IR:
 		elif type=='yaml':
 			self.__write_file_yaml(filename,spectrum)
 
-	def write_gaussiansmearedspectrum(self,filename,sigma,type='txt'):
+	def write_gaussiansmearedspectrum(self,filename,sigma,type='yaml'):
 		"""
 		writes smeared oscillator strenghts to file
 
@@ -292,12 +292,6 @@ class IR:
 		file.close()
 		
 		
-		
-		
-		
-		
-		
-
         def __write_file_yaml(self,filename,spectrum): 
                 """
                 writes dict for any spectrum into file
@@ -308,14 +302,24 @@ class IR:
                         and 'Intensities'
 
                 """ 
-                   
-          	with open(filename, 'w') as yaml_file:
-			mydict={}
-			mydict['Frequencies']=spectrum['Frequencies'].tolist()
-			mydict['Oscillator Strengths']=spectrum['Intensities'].tolist()
-			yaml = ruamel.yaml.YAML()
-
-			yaml.dump(mydict, yaml_file )
+		Freq=np.array(spectrum['Frequencies'].tolist())
+		Intens=np.array(spectrum['Intensities'].tolist())
+		file  = open(filename, 'w')
+		file.write('Frequency: \n')
+		for i in range(len(Freq)):
+			file.write('- %s \n' % (Freq[i]))
+		file.write('Oscillator Strengths: \n')
+		for i in range(len(Intens)):
+			file.write('- %s \n' % (Intens[i]))
+		file.close()
+		   
+          	#with open(filename, 'w') as yaml_file:
+			#mydict={}
+			#mydict['Frequencies']=spectrum['Frequencies'].tolist()
+			#mydict['Oscillator Strengths']=spectrum['Intensities'].tolist()
+			#yaml = ruamel.yaml.YAML()
+                        #
+			#yaml.dump(mydict, yaml_file )
 
 	
 	def plot_spectrum(self,filename):
