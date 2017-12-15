@@ -6,13 +6,13 @@ from phonopy.file_IO import parse_FORCE_SETS, parse_BORN, write_FORCE_CONSTANTS,
 from phonopy.structure.atoms import PhonopyAtoms
 from phonopy.units import VaspToCm, VaspToTHz
 import os
-
+from phonopy.phonon.degeneracy import degenerate_sets as get_degenerate_sets
 
 
 class IR:
 	
 	def __init__(self,PoscarName='POSCAR',BornFileName='BORN',ForceConstants=False,ForceFileName='FORCE_SETS',supercell=[[1, 0, 0],[0, 1, 0], [0, 0, 1]]
-,nac=False,symprec=1e-5,masses=[],primitive=[[1, 0, 0],[0, 1, 0], [0, 0, 1]]):
+,nac=False,symprec=1e-5,masses=[],primitive=[[1, 0, 0],[0, 1, 0], [0, 0, 1]],degeneracy_tolerance=1e-5):
 		"""
 		Class for calculating the IR spectra in the dipole approximation according to:
 		P. Giannozzi and S. Baroni, J. Chem. Phys. 100, 8537 (1994). 
@@ -40,7 +40,7 @@ class IR:
 		self.__supercell=supercell
 		self.__phonon= Phonopy(self.__unitcell,supercell_matrix=self.__supercell,primitive_matrix=primitive,factor=VaspToCm,symprec=symprec)
 		self.__natoms=self.__phonon.get_primitive().get_number_of_atoms()	
-
+		self._degeneracy_tolerance=degeneracy_tolerance
 		#If different masses are supplied
 		if masses: 
 			self.__phonon.set_masses(masses)
@@ -132,12 +132,48 @@ class IR:
 						sum=sum+self.__BORN_CHARGES[l,alpha,beta]*self.__massEig(l,freq,beta)
 				Intensity[freq]=Intensity[freq]+np.power(np.absolute(sum),2)
 
+
+		
+		#treat degeneracy here i.e. get degenerate modes and delete one frequency and add up their intensities
+		freqlist_deg=get_degenerate_sets(self.__frequencies,cutoff=self._degeneracy_tolerance)
+
 		ReformatIntensity=[]		
 		for i in Intensity:
 			ReformatIntensity.append(Intensity[i])	
+		
+	
+	
+		if (len(freqlist_deg)< len(self.__frequencies)):
+			#Pseudocode: Add up itensities for degenerate modes and delete frequencies that are degenerate
+			print('Alert')
+			Intensity_deg={}
+			for sets in range(len(freqlist_deg)):
+				Intensity_deg[sets]=0
+				for band in range(len(freqlist_deg[sets])):
+					Intensity_deg[sets]=Intensity_deg[sets]+ReformatIntensity[freqlist_deg[sets][band]]
+					#print(freqlist_deg[sets][band])
+			ReformatIntensity=[]		
+			for i in range(len(Intensity_deg)):
+				ReformatIntensity.append(Intensity_deg[i])	
 			
+			print(self.__frequencies)
+			print(type(self.__frequencies))
+			Freq=[]
+			for band in range(len(freqlist_deg)):
+				Freq.append(self.__frequencies[freqlist_deg[band][0]])	
+			
+			self.__frequencies=np.array(Freq)	
+			
+			
+			
+	
+
 		self.__Intensity=np.array(ReformatIntensity)
 	
+		
+
+
+
 		
 	def get_intensities(self):
 		""" 
@@ -242,7 +278,7 @@ class IR:
 		Freq=np.array(spectrum['Frequencies'].tolist())  
 		Intens=np.array(spectrum['Intensities'].tolist())
 		file  = open(filename, 'w')
-		file.write('Frequency (cm-1$) Oscillator Strengths ')		
+		file.write('Frequency (cm-1) Oscillator Strengths \n')		
 		for i in range(len(Freq)):
 			file.write('%s %s \n' % (Freq[i], Intens[i]))
 		file.close()
