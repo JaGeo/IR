@@ -16,7 +16,7 @@ They should be cited if you use the program. Moreover, this repository should be
 
 Intallation
 -----------
-To use this package you need to install [```Phonopy```](https://github.com/atztogo/phonopy) correctly. Furthermore, ```numpy``` and ```matplotlib``` are required. Also, the python path should be exported correctly.
+To use this package you need to install [```Phonopy```](https://github.com/atztogo/phonopy) correctly. Furthermore, ```numpy```, ```matplotlib``` and  ```ruamel.yaml´´´ are required. Also, the python path should be exported correctly.
 
 How to
 --------
