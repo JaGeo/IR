@@ -274,7 +274,7 @@ class IR:
 			self.__write_file_yaml(filename,spectrum)
 	def __write_file(self,filename,spectrum):
 		"""
-		writes dict for any spectrum into file
+		writes dict for any spectrum into txt file
 
 		args: 	
 			filename(str): Filename
@@ -294,7 +294,7 @@ class IR:
 		
         def __write_file_yaml(self,filename,spectrum): 
                 """
-                writes dict for any spectrum into file
+                writes dict for any spectrum into yaml file
 
                 args:
                         filename(str): Filename
@@ -313,13 +313,13 @@ class IR:
 			file.write('- %s \n' % (Intens[i]))
 		file.close()
 		   
-          	#with open(filename, 'w') as yaml_file:
-			#mydict={}
-			#mydict['Frequencies']=spectrum['Frequencies'].tolist()
-			#mydict['Oscillator Strengths']=spectrum['Intensities'].tolist()
-			#yaml = ruamel.yaml.YAML()
-                        #
-			#yaml.dump(mydict, yaml_file )
+
+
+
+
+
+
+
 
 	
 	def plot_spectrum(self,filename):
