@@ -134,7 +134,7 @@ class IR:
 
 
 		
-		#treat degeneracy here i.e. get degenerate modes and delete one frequency and add up their intensities
+		#get degenerate modes
 		freqlist_deg=get_degenerate_sets(self.__frequencies,cutoff=self._degeneracy_tolerance)
 
 		ReformatIntensity=[]		
@@ -142,16 +142,16 @@ class IR:
 			ReformatIntensity.append(Intensity[i])	
 		
 	
-	
+		#if degenerate modes exist:
 		if (len(freqlist_deg)< len(self.__frequencies)):
-			#Pseudocode: Add up itensities for degenerate modes and delete frequencies that are degenerate
-			print('Alert')
+			
+			
 			Intensity_deg={}
 			for sets in range(len(freqlist_deg)):
 				Intensity_deg[sets]=0
 				for band in range(len(freqlist_deg[sets])):
 					Intensity_deg[sets]=Intensity_deg[sets]+ReformatIntensity[freqlist_deg[sets][band]]
-					#print(freqlist_deg[sets][band])
+					
 			ReformatIntensity=[]		
 			for i in range(len(Intensity_deg)):
 				ReformatIntensity.append(Intensity_deg[i])	
@@ -189,7 +189,7 @@ class IR:
 
 		return self.__frequencies
 
-	#no degeneracy yet
+	
 	def get_spectrum(self):
 		"""
 		returns spectrum as a dict of numpy arrays
