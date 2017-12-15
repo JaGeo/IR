@@ -257,7 +257,7 @@ class IR:
 		elif type=='yaml':
 			self.__write_file_yaml(filename,spectrum)
 
-	def write_gaussiansmearedspectrum(self,filename,sigma,type='yaml'):
+	def write_gaussiansmearedspectrum(self,filename,sigma,type='txt'):
 		"""
 		writes smeared oscillator strenghts to file
 
