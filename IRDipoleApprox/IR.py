@@ -7,10 +7,11 @@ from phonopy.structure.atoms import PhonopyAtoms
 from phonopy.units import VaspToCm, VaspToTHz
 import os
 from phonopy.phonon.degeneracy import degenerate_sets as get_degenerate_sets
+from ruamel import yaml
+import sys
 
 
-class IR:
-	
+class IR:	
 	def __init__(self,PoscarName='POSCAR',BornFileName='BORN',ForceConstants=False,ForceFileName='FORCE_SETS',supercell=[[1, 0, 0],[0, 1, 0], [0, 0, 1]]
 ,nac=False,symprec=1e-5,masses=[],primitive=[[1, 0, 0],[0, 1, 0], [0, 0, 1]],degeneracy_tolerance=1e-5):
 		"""
@@ -32,7 +33,7 @@ class IR:
 			symprec (float): contains symprec tag as used in Phonopy
 			masses (list): Masses in this list are used instead of the ones prepared in Phonopy. Useful for isotopes.
 			primitive (list of lists): contains rotational matrix to arrive at primitive cell
-			
+			degeneracy_tolerance (float): tolerance for degenerate modes			
 		"""
 
 		
@@ -141,7 +142,7 @@ class IR:
 		for i in Intensity:
 			ReformatIntensity.append(Intensity[i])	
 		
-	
+		
 		#if degenerate modes exist:
 		if (len(freqlist_deg)< len(self.__frequencies)):
 			
@@ -156,15 +157,15 @@ class IR:
 			for i in range(len(Intensity_deg)):
 				ReformatIntensity.append(Intensity_deg[i])	
 			
-			print(self.__frequencies)
-			print(type(self.__frequencies))
+
 			Freq=[]
 			for band in range(len(freqlist_deg)):
 				Freq.append(self.__frequencies[freqlist_deg[band][0]])	
 			
-			self.__frequencies=np.array(Freq)	
+			self.__frequencies_deg=np.array(Freq)	
 			
-			
+		else:
+			self.__frequencies_deg=self.__frequencies		
 			
 	
 
@@ -187,7 +188,7 @@ class IR:
 		returns frequencies as a numpy array
 		"""
 
-		return self.__frequencies
+		return self.__frequencies_deg
 
 	
 	def get_spectrum(self):
@@ -200,7 +201,7 @@ class IR:
 
 		"""
 	
-		spectrum = {'Frequencies': self.__frequencies, 'Intensities': self.__Intensity }
+		spectrum = {'Frequencies': self.get_frequencies(), 'Intensities': self.get_intensities() }
 		return spectrum
 
 	#only gaussian broadening so far
@@ -251,6 +252,7 @@ class IR:
 
 		spectrum=self.get_spectrum()
 		self.__write_file(filename,spectrum)	
+		
 
 	def write_gaussiansmearedspectrum(self,filename,sigma):
 		"""
@@ -282,7 +284,9 @@ class IR:
 		for i in range(len(Freq)):
 			file.write('%s %s \n' % (Freq[i], Intens[i]))
 		file.close()
-
+#		with open('data.yml', 'w') as yaml_file:
+#		yaml.safe_dump(spectrum, sys.stdout)		
+	
 	
 	def plot_spectrum(self,filename):
 		spectrum=self.get_spectrum()
