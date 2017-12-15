@@ -1,4 +1,4 @@
-Frequency (cm-1$) Oscillator Strengths 
+Frequency (cm-1) Oscillator Strengths 
 -0.372924835807 1.5485198217e-06 
 0.278953811712 6.76963002076e-07 
 54.1662221786 1.99933806118e-10 
