@@ -12,8 +12,12 @@ It is based on the following two publications:
 
 2. D. Karhánek, T. Bučko, J. Hafner, *J. Phys.: Condens. Matter.*, **2010**, *22*, 265006.
 
-They should be cited if you use the program. Moreover, this repository should be cited: 
-J. George, & R. Dronskowski. (2018, February 7). JaGeo/IR: IR Version 1.0.2 (Version v1.0.2). Zenodo. (http://doi.org/10.5281/zenodo.1168027)[http://doi.org/10.5281/zenodo.1168027]  ([Bibtex](https://zenodo.org/record/1168027/export/hx)). Of course, also [```VASP```](https://www.vasp.at/) and [```Phonopy```](https://github.com/atztogo/phonopy).
+They should be cited if you use the program. 
+
+Moreover, this repository should be cited: 
+J. George, & R. Dronskowski. (2018, February 7). JaGeo/IR: IR Version 1.0.2 (Version v1.0.2). Zenodo. [http://doi.org/10.5281/zenodo.1168027](http://doi.org/10.5281/zenodo.1168027)  ([Bibtex](https://zenodo.org/record/1168027/export/hx)). 
+
+Of course, also [```VASP```](https://www.vasp.at/) and [```Phonopy```](https://github.com/atztogo/phonopy).
 
 Intallation
 -----------
