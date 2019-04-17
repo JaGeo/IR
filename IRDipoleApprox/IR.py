@@ -66,7 +66,7 @@ class IR:
 
         # Read in BORN file
         BORN_file = parse_BORN(self.__phonon.get_primitive(), filename=BornFileName)
-        print(BORN_file)
+       
         self.__BORN_CHARGES = BORN_file['born']
 
         # Apply NAC Correction
