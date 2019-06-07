@@ -12,7 +12,7 @@ class IRTest(unittest.TestCase):
                           ForceConstants=False,
                           ForceFileName=os.path.join(path_here, 'FORCE_SETS'),
                           supercell=[[3, 0, 0], [0, 3, 0], [0, 0, 4]],
-                          primitive=[[1, 0, 0], [0, 1, 0], [0, 0, 1]])
+                          primitive=[[1, 0, 0], [0, 1, 0], [0, 0, 1]], BornFileName=os.path.join(path_here, 'BORN'))
         self.IR_calc_masses = IR(PoscarName=os.path.join(path_here, 'POSCAR'),
                                  ForceConstants=False,
                                  ForceFileName=os.path.join(path_here, 'FORCE_SETS'),
@@ -21,7 +21,8 @@ class IRTest(unittest.TestCase):
                                  masses=[12.010700, 12.010700, 15.999400, 15.999400,
                                          14.006700, 14.006700, 14.006700, 14.006700, 2,
                                          2,
-                                         2, 2, 2, 2, 2, 2])
+                                         2, 2, 2, 2, 2, 2],
+                                 BornFileName=os.path.join(path_here, 'BORN'))
 
         self.IR_calc2 = IR(PoscarName=os.path.join(path_here, 'POSCAR.NaCl'),
                            ForceConstants=False,
