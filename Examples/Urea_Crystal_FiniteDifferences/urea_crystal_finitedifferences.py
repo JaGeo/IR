@@ -1,4 +1,4 @@
-from IRDipoleApprox import IR
+from IR.IRDipoleApprox import IR
 
 
 supercell=[[3, 0, 0],[0, 3, 0], [0, 0, 4]]

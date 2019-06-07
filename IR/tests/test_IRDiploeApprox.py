@@ -1,4 +1,4 @@
-from IRDipoleApprox import IR
+from IR.IRDipoleApprox import IR
 import unittest
 import numpy as np
 import os
@@ -85,7 +85,7 @@ class IRTest(unittest.TestCase):
 
     def test_smearing(self):
         # TODO: test smearing
-        
+
         pass
 
 
