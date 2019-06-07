@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/JaGeo/IR/blob/master/LICENSE) [![DOI](https://zenodo.org/badge/101991065.svg)](https://zenodo.org/badge/latestdoi/101991065)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/JaGeo/IR/blob/master/LICENSE) [![DOI](https://zenodo.org/badge/101991065.svg)](https://zenodo.org/badge/latestdoi/101991065) [![Build Status](https://travis-ci.org/JaGeo/IR.svg?branch=master)](https://travis-ci.org/JaGeo/IR)
 
 # IR
 This python package can calculate infrared intensities based on the dipole approximation. To do so, you need [```VASP```](https://www.vasp.at/) and [```Phonopy```](https://github.com/atztogo/phonopy). 
@@ -25,6 +25,8 @@ Of course, also [```VASP```](https://www.vasp.at/) and [```Phonopy```](https://g
 
 Intallation
 -----------
+This package can be installed with [```pip install IR-JaGeo```]
+Alternative Installation:
 To use this package you need to install [```Phonopy```](https://github.com/atztogo/phonopy) correctly. Furthermore, ```numpy``` and ```matplotlib``` are required. Also, the python path should be exported correctly.
 
 How to
