@@ -25,7 +25,7 @@ Of course, also [```VASP```](https://www.vasp.at/) and [```Phonopy```](https://g
 
 Intallation
 -----------
-This package can be installed with [```pip install IR-JaGeo```]
+This package can be installed with ```pip install IR-JaGeo```.
 Alternative Installation:
 To use this package you need to install [```Phonopy```](https://github.com/atztogo/phonopy) correctly. Furthermore, ```numpy``` and ```matplotlib``` are required. Also, the python path should be exported correctly.
 
