@@ -1,9 +1,0 @@
-README.md
-setup.py
-IR/IRDipoleApprox.py
-IR/__init__.py
-IR_JaGeo.egg-info/PKG-INFO
-IR_JaGeo.egg-info/SOURCES.txt
-IR_JaGeo.egg-info/dependency_links.txt
-IR_JaGeo.egg-info/requires.txt
-IR_JaGeo.egg-info/top_level.txt
