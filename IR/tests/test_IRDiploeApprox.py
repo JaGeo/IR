@@ -19,9 +19,9 @@ class IRTest(unittest.TestCase):
                                  supercell=[[3, 0, 0], [0, 3, 0], [0, 0, 4]],
                                  primitive=[[1, 0, 0], [0, 1, 0], [0, 0, 1]],
                                  masses=[12.010700, 12.010700, 15.999400, 15.999400,
-                                                                          14.006700, 14.006700, 14.006700, 14.006700, 2,
-                                                                          2,
-                                                                          2, 2, 2, 2, 2, 2])
+                                         14.006700, 14.006700, 14.006700, 14.006700, 2,
+                                         2,
+                                         2, 2, 2, 2, 2, 2])
 
         self.IR_calc2 = IR(PoscarName=os.path.join(path_here, 'POSCAR.NaCl'),
                            ForceConstants=False,
@@ -31,8 +31,8 @@ class IRTest(unittest.TestCase):
                            primitive=[[0, 0.5, 0.5], [0.5, 0, 0.5], [0.5, 0.5, 0]])
         self.IRFC = IR(PoscarName=os.path.join(path_here, 'POSCAR_Methanol'),
                        ForceConstants=True,
-                       ForceFileName=os.path.join(path_here,'FORCE_CONSTANTS_Methanol'),
-                       BornFileName=os.path.join(path_here,'BORN.Methanol'),
+                       ForceFileName=os.path.join(path_here, 'FORCE_CONSTANTS_Methanol'),
+                       BornFileName=os.path.join(path_here, 'BORN.Methanol'),
                        supercell=[[1, 0, 0], [0, 1, 0], [0, 0, 1]], nac=False)
 
     def test_attributes(self):
@@ -50,8 +50,8 @@ class IRTest(unittest.TestCase):
         self.assertEqual(np.sign(self.IR_calc._EigFormat[14, 47, 2]),
                          np.sign(self.IR_calc._EigFormat[15, 47, 2]))
 
-        #test intensities
-        self.assertAlmostEqual(self.IR_calc.get_intensities()[-1],2.403735277960254)
+        # test intensities
+        self.assertAlmostEqual(self.IR_calc.get_intensities()[-1], 2.403735277960254)
 
         # TODO: test NAC
         self.assertAlmostEqual(self.IR_calc2._frequencies[-1], 153.7212069157, places=2)
@@ -70,21 +70,22 @@ class IRTest(unittest.TestCase):
         self.assertEqual(np.sign(self.IR_calc_masses._EigFormat[14, 47, 2]),
                          np.sign(self.IR_calc_masses._EigFormat[15, 47, 2]))
 
-        #test intensities
-        self.assertAlmostEqual(self.IR_calc_masses.get_intensities()[-1],1.1658569108600518)
+        # test intensities
+        self.assertAlmostEqual(self.IR_calc_masses.get_intensities()[-1], 1.1658569108600518)
 
         # start from FORCE constants instead
         self.assertAlmostEqual(self.IRFC._frequencies[-1], 3741.4132865293, places=1)
 
-        #test intensities
-        self.assertAlmostEqual(self.IRFC.get_intensities()[-1],0.02218877246084381)
+        # test intensities
+        self.assertAlmostEqual(self.IRFC.get_intensities()[-1], 0.02218877246084381)
 
     def test_printing_files(self):
-        #TODO: implement test of writing of files
+        # TODO: implement test of writing of files
         pass
 
     def test_smearing(self):
-        #TODO: test smearing
+        # TODO: test smearing
+        
         pass
 
 
