@@ -19,7 +19,7 @@ They should be cited if you use the program.
 Moreover, the following should be cited:
 1.  [A. Görne, J. George, J. van Leusen, R. Dronskowski, *Inorganics*, **2017**, *5*, 10.](https://doi.org/10.3390/inorganics5010010) 
 
-2. J. George, & R. Dronskowski. (2018, February 7). IR Version 1.0.2 (Version v1.0.2). Zenodo. [http://doi.org/10.5281/zenodo.1168027](http://doi.org/10.5281/zenodo.1168027)  ([Bibtex](https://zenodo.org/record/1168027/export/hx)). 
+2. Janine George, & Richard Dronskowski. (2019, June 7). JaGeo/IR: IR (Version 1.0.4). Zenodo. [http://doi.org/10.5281/zenodo.3241592](http://doi.org/10.5281/zenodo.3241592) ([Bibtex](https://zenodo.org/record/3241592/export/hx)). 
 
 Of course, also [```VASP```](https://www.vasp.at/) and [```Phonopy```](https://github.com/atztogo/phonopy).
 
