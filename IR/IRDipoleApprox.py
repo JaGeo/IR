@@ -8,10 +8,19 @@ from phonopy.phonon.degeneracy import degenerate_sets as get_degenerate_sets
 
 
 class IR:
-    def __init__(self, PoscarName='POSCAR', BornFileName='BORN', ForceConstants=False, ForceFileName='FORCE_SETS',
-                 supercell=[[1, 0, 0], [0, 1, 0], [0, 0, 1]]
-                 , nac=False, symprec=1e-5, masses=[], primitive=[[1, 0, 0], [0, 1, 0], [0, 0, 1]],
-                 degeneracy_tolerance=1e-5):
+    def __init__(
+        self,
+        PoscarName="POSCAR",
+        BornFileName="BORN",
+        ForceConstants=False,
+        ForceFileName="FORCE_SETS",
+        supercell=[[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+        nac=False,
+        symprec=1e-5,
+        masses=[],
+        primitive=[[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+        degeneracy_tolerance=1e-5,
+    ):
         """
         Class for calculating the IR spectra in the dipole approximation according to:
         P. Giannozzi and S. Baroni, J. Chem. Phys. 100, 8537 (1994).
@@ -36,8 +45,13 @@ class IR:
 
         self.__unitcell = read_vasp(PoscarName)
         self.__supercell = supercell
-        self.__phonon = Phonopy(self.__unitcell, supercell_matrix=self.__supercell, primitive_matrix=primitive,
-                                factor=VaspToCm, symprec=symprec)
+        self.__phonon = Phonopy(
+            self.__unitcell,
+            supercell_matrix=self.__supercell,
+            primitive_matrix=primitive,
+            factor=VaspToCm,
+            symprec=symprec,
+        )
         self.__natoms = self.__phonon.get_primitive().get_number_of_atoms()
         self._degeneracy_tolerance = degeneracy_tolerance
         # If different masses are supplied
@@ -49,7 +63,6 @@ class IR:
         if ForceConstants:
             force_constants = parse_FORCE_CONSTANTS(filename=ForceFileName)
             self.__phonon.set_force_constants(force_constants)
-
 
         if masses:
             self.__phonon._build_supercell()
@@ -64,13 +77,16 @@ class IR:
 
         # Read in BORN file
         BORN_file = parse_BORN(self.__phonon.get_primitive(), filename=BornFileName)
-       
-        self.__BORN_CHARGES = BORN_file['born']
+
+        self.__BORN_CHARGES = BORN_file["born"]
 
         # Apply NAC Correction
         if nac:
             self.__phonon.set_nac_params(BORN_file)
-        self._frequencies, self._eigvecs = self.__phonon.get_frequencies_with_eigenvectors([0, 0, 0])
+        (
+            self._frequencies,
+            self._eigvecs,
+        ) = self.__phonon.get_frequencies_with_eigenvectors([0, 0, 0])
 
         self.__NumberOfBands = len(self._frequencies)
 
@@ -133,24 +149,31 @@ class IR:
                 sum = 0
                 for l in range(self.__natoms):
                     for beta in range(3):
-                        sum = sum + self.__BORN_CHARGES[l, alpha, beta] * self.__massEig(l, freq, beta)
+                        sum = sum + self.__BORN_CHARGES[
+                            l, alpha, beta
+                        ] * self.__massEig(l, freq, beta)
                 Intensity[freq] = Intensity[freq] + np.power(np.absolute(sum), 2)
 
         # get degenerate modes
-        freqlist_deg = get_degenerate_sets(self._frequencies, cutoff=self._degeneracy_tolerance)
+        freqlist_deg = get_degenerate_sets(
+            self._frequencies, cutoff=self._degeneracy_tolerance
+        )
 
         ReformatIntensity = []
         for i in Intensity:
             ReformatIntensity.append(Intensity[i])
 
         # if degenerate modes exist:
-        if (len(freqlist_deg) < len(self._frequencies)):
+        if len(freqlist_deg) < len(self._frequencies):
 
             Intensity_deg = {}
             for sets in range(len(freqlist_deg)):
                 Intensity_deg[sets] = 0
                 for band in range(len(freqlist_deg[sets])):
-                    Intensity_deg[sets] = Intensity_deg[sets] + ReformatIntensity[freqlist_deg[sets][band]]
+                    Intensity_deg[sets] = (
+                        Intensity_deg[sets]
+                        + ReformatIntensity[freqlist_deg[sets][band]]
+                    )
 
             ReformatIntensity = []
             for i in range(len(Intensity_deg)):
@@ -191,7 +214,10 @@ class IR:
 
         """
 
-        spectrum = {'Frequencies': self.get_frequencies(), 'Intensities': self.get_intensities()}
+        spectrum = {
+            "Frequencies": self.get_frequencies(),
+            "Intensities": self.get_intensities(),
+        }
         return spectrum
 
     # only gaussian broadening so far
@@ -203,14 +229,16 @@ class IR:
             sigma (float): smearing
         """
 
-        #unsmearedspectrum = self.get_spectrum()
+        # unsmearedspectrum = self.get_spectrum()
         frequencies = self.get_frequencies()
         Intensity = self.get_intensities()
-        rangex = np.linspace(0, np.nanmax(frequencies) + 50, num=int(np.nanmax(frequencies) + 50) * 100)
+        rangex = np.linspace(
+            0, np.nanmax(frequencies) + 50, num=int(np.nanmax(frequencies) + 50) * 100
+        )
         y = np.zeros(int(np.nanmax(frequencies) + 50) * 100)
         for i in range(len(frequencies)):
             y = y + self.__gaussiansmearing(rangex, frequencies[i], Intensity[i], sigma)
-        smearedspectrum = {'Frequencies': rangex, 'Intensities': y}
+        smearedspectrum = {"Frequencies": rangex, "Intensities": y}
         return smearedspectrum
 
     def __gaussiansmearing(self, rangex, frequency, Intensity, sigma):
@@ -226,11 +254,14 @@ class IR:
         """
 
         y = np.zeros(rangex.size)
-        y = Intensity * np.exp(-np.power((rangex - frequency), 2) / (2 * np.power(sigma, 2))) * np.power(
-            np.sqrt(2 * np.pi) * sigma, -1)
+        y = (
+            Intensity
+            * np.exp(-np.power((rangex - frequency), 2) / (2 * np.power(sigma, 2)))
+            * np.power(np.sqrt(2 * np.pi) * sigma, -1)
+        )
         return y
 
-    def write_spectrum(self, filename, type='yaml'):
+    def write_spectrum(self, filename, type="yaml"):
         """
         writes oscillator strenghts to file
 
@@ -238,14 +269,14 @@ class IR:
             filename(str): Filename
             type(str): either txt or yaml
         """
-        #TODO: csv
+        # TODO: csv
         spectrum = self.get_spectrum()
-        if type == 'txt':
+        if type == "txt":
             self.__write_file(filename, spectrum)
-        elif type == 'yaml':
+        elif type == "yaml":
             self.__write_file_yaml(filename, spectrum)
 
-    def write_gaussiansmearedspectrum(self, filename, sigma, type='txt'):
+    def write_gaussiansmearedspectrum(self, filename, sigma, type="txt"):
         """
         writes smeared oscillator strenghts to file
 
@@ -254,11 +285,11 @@ class IR:
             sigma(float): smearing of the spectrum
             type(str): either txt or yaml
         """
-        #TODO csv
+        # TODO csv
         spectrum = self.get_gaussiansmearedspectrum(sigma)
-        if type == 'txt':
+        if type == "txt":
             self.__write_file(filename, spectrum)
-        elif type == 'yaml':
+        elif type == "yaml":
             self.__write_file_yaml(filename, spectrum)
 
     def __write_file(self, filename, spectrum):
@@ -272,12 +303,12 @@ class IR:
 
         """
 
-        Freq = np.array(spectrum['Frequencies'].tolist())
-        Intens = np.array(spectrum['Intensities'].tolist())
-        file = open(filename, 'w')
-        file.write('Frequency (cm-1) Oscillator Strengths \n')
+        Freq = np.array(spectrum["Frequencies"].tolist())
+        Intens = np.array(spectrum["Intensities"].tolist())
+        file = open(filename, "w")
+        file.write("Frequency (cm-1) Oscillator Strengths \n")
         for i in range(len(Freq)):
-            file.write('%s %s \n' % (Freq[i], Intens[i]))
+            file.write("%s %s \n" % (Freq[i], Intens[i]))
         file.close()
 
     def __write_file_yaml(self, filename, spectrum):
@@ -290,15 +321,15 @@ class IR:
                 and 'Intensities'
 
         """
-        Freq = np.array(spectrum['Frequencies'].tolist())
-        Intens = np.array(spectrum['Intensities'].tolist())
-        file = open(filename, 'w')
-        file.write('Frequency: \n')
+        Freq = np.array(spectrum["Frequencies"].tolist())
+        Intens = np.array(spectrum["Intensities"].tolist())
+        file = open(filename, "w")
+        file.write("Frequency: \n")
         for i in range(len(Freq)):
-            file.write('- %s \n' % (Freq[i]))
-        file.write('Oscillator Strengths: \n')
+            file.write("- %s \n" % (Freq[i]))
+        file.write("Oscillator Strengths: \n")
         for i in range(len(Intens)):
-            file.write('- %s \n' % (Intens[i]))
+            file.write("- %s \n" % (Intens[i]))
         file.close()
 
     def plot_spectrum(self, filename):
@@ -308,9 +339,13 @@ class IR:
             filename(str): name of the file
         """
         spectrum = self.get_spectrum()
-        plt.stem(spectrum['Frequencies'].tolist(), spectrum['Intensities'].tolist(), markerfmt=' ')
-        plt.xlabel('Wave number (cm$^{-1}$)')
-        plt.ylabel('Oscillator Strengths')
+        plt.stem(
+            spectrum["Frequencies"].tolist(),
+            spectrum["Intensities"].tolist(),
+            markerfmt=" ",
+        )
+        plt.xlabel("Wave number (cm$^{-1}$)")
+        plt.ylabel("Oscillator Strengths")
         plt.savefig(filename)
         plt.show()
 
@@ -322,11 +357,12 @@ class IR:
             sigma(float): smearing
         """
         spectrum = self.get_gaussiansmearedspectrum(sigma)
-        plt.plot(spectrum['Frequencies'].tolist(), spectrum['Intensities'].tolist())
-        plt.xlabel('Wave number (cm$^{-1}$)')
-        plt.ylabel('Oscillator Strengths')
+        plt.plot(spectrum["Frequencies"].tolist(), spectrum["Intensities"].tolist())
+        plt.xlabel("Wave number (cm$^{-1}$)")
+        plt.ylabel("Oscillator Strengths")
         plt.savefig(filename)
         plt.show()
 
+
 # def __plot_xydata(self,filename,spectrum):
-#	spectrum=spectrum
+# 	spectrum=spectrum
